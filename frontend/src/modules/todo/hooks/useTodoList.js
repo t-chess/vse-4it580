@@ -22,14 +22,9 @@ export function useTodoList() {
     // TODO
   };
 
-  const removeCompletedItems = () => {
-    // TODO
-  };
-
   return {
     items,
     addItem,
     setItemCompleted,
-    removeCompletedItems,
   };
 }
