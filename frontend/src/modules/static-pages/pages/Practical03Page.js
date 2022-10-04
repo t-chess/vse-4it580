@@ -39,6 +39,9 @@ export function Practical03Page() {
             },
           }}
         >
+          <FormField name='firstName' />
+          <FormField name='lastName' />
+          <FormField name='agreeToc' as={Switch} xvariant='unstyled' />
           <Select>
             <option value="public">Public</option>
             <option value="friends">Only friends</option>
