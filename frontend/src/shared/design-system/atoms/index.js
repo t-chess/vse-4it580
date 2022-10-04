@@ -13,10 +13,17 @@ export {
   FormHelperText,
   FormLabel,
   IconButton,
-  Input,
   Image,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Radio,
+  RadioGroup,
+  Select,
   Spacer,
   Stack,
+  StackDivider,
+  Switch,
   Tab,
   TabList,
   Tabs,
@@ -24,6 +31,7 @@ export {
 } from '@chakra-ui/react';
 
 export { AvatarPhoto } from './AvatarPhoto';
+export { BodyBackground } from './BodyBackground';
 export { Heading } from './Heading';
 export { Icon } from './Icon';
 export { Link } from './Link';
