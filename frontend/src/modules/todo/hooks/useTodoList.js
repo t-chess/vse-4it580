@@ -20,6 +20,7 @@ const initialItems = [
 
 export function useTodoList() {
   const [todoState, setTodoState] = useState({
+    filter: 'all',
     items: initialItems,
     nextId: initialItems.length + 1,
   });
@@ -60,9 +61,18 @@ export function useTodoList() {
     }));
   };
 
+  const setFilter = (filter) => {
+    setTodoState((prevState) => ({
+      ...prevState,
+      filter,
+    }));
+  };
+
   return {
+    filter: todoState.filter,
     items: todoState.items,
     addItem,
     setItemCompleted,
+    setFilter,
   };
 }

@@ -1,9 +1,53 @@
 import { useState } from 'react';
 import { useTodoList } from 'src/modules/todo/hooks';
-import { Box, Button, Heading, Input } from 'src/shared/design-system';
+import {
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  DeleteIcon,
+  Heading,
+  Input,
+  Spacer,
+  Stack,
+  Tab,
+  TabList,
+  Tabs,
+} from 'src/shared/design-system';
+
+function TodoListItem({ isCompleted, children, onChange }) {
+  return (
+    <Stack
+      direction="row"
+      role="group"
+      p="2"
+      spacing="1"
+      textDecoration={isCompleted ? 'line-through' : 'none'}
+      color={isCompleted ? 'gray.500' : 'black'}
+      _hover={{ bg: 'gray.100' }}
+    >
+      <Checkbox
+        isChecked={isCompleted}
+        onChange={(event) => onChange(event.target.checked)}
+      >
+        {children}
+      </Checkbox>
+      <Spacer />
+      <IconButton
+        icon={<DeleteIcon />}
+        colorScheme="red"
+        size="sm"
+        visibility="hidden"
+        _groupHover={{ visibility: 'visible' }}
+      />
+    </Stack>
+  );
+}
+
+const STATES = ['all', 'completed', 'not-completed'];
 
 export function Practical02Page() {
-  const { items, addItem, setItemCompleted } = useTodoList();
+  const { items, addItem, setItemCompleted, filter, setFilter } = useTodoList();
   const [newItemName, setNewItemName] = useState('');
 
   return (
@@ -29,20 +73,38 @@ export function Practical02Page() {
         />
         <Button type="submit">Add</Button>
       </form>
-      <ul>
+
+      <Tabs
+        index={STATES.indexOf(filter)}
+        onChange={(index) => setFilter(STATES[index])}
+        variant="soft-rounded"
+        colorScheme="blue"
+        my="4"
+      >
+        <TabList>
+          <Tab>All</Tab>
+          <Tab>Completed</Tab>
+          <Tab>Not completed</Tab>
+        </TabList>
+      </Tabs>
+
+      <Stack
+        border="1px"
+        borderColor="gray.300"
+        borderRadius="md"
+        overflow="hidden"
+        spacing="0"
+      >
         {items.map((item) => (
-          <li key={item.id}>
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => setItemCompleted(item.id, !item.isCompleted)}
-                checked={item.isCompleted}
-              />{' '}
-              {item.name}
-            </label>
-          </li>
+          <TodoListItem
+            key={item.id}
+            onChange={(completed) => setItemCompleted(item.id, completed)}
+            isCompleted={item.isCompleted}
+          >
+            {item.name}
+          </TodoListItem>
         ))}
-      </ul>
+      </Stack>
     </Box>
   );
 }
