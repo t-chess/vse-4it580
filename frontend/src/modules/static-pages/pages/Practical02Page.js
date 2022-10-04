@@ -1,50 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTodoList } from 'src/modules/todo/hooks';
-import {
-  Box,
-  Button,
-  Checkbox,
-  IconButton,
-  DeleteIcon,
-  Heading,
-  Input,
-  Spacer,
-  Stack,
-  Tab,
-  TabList,
-  Tabs,
-} from 'src/shared/design-system';
-
-function TodoListItem({ isCompleted, children, onChange }) {
-  return (
-    <Stack
-      direction="row"
-      role="group"
-      p="2"
-      spacing="1"
-      textDecoration={isCompleted ? 'line-through' : 'none'}
-      color={isCompleted ? 'gray.500' : 'black'}
-      _hover={{ bg: 'gray.100' }}
-    >
-      <Checkbox
-        isChecked={isCompleted}
-        onChange={(event) => onChange(event.target.checked)}
-      >
-        {children}
-      </Checkbox>
-      <Spacer />
-      <IconButton
-        icon={<DeleteIcon />}
-        colorScheme="red"
-        size="sm"
-        visibility="hidden"
-        _groupHover={{ visibility: 'visible' }}
-      />
-    </Stack>
-  );
-}
-
-const STATES = ['all', 'completed', 'not-completed'];
+import { Box, Button, Heading, Input } from 'src/shared/design-system';
 import {DeleteIcon} from '@chakra-ui/icons'; 
 import { Checkbox, HStack, Tab, TabList, Tabs } from '@chakra-ui/react';
 

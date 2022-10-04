@@ -14,7 +14,7 @@ const initialItems = [
   {
     id: 3,
     name: 'write some React code',
-    isCompleted: true,
+    isCompleted: false,
   },
 ];
 
