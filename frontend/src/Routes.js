@@ -8,6 +8,7 @@ import {
   AboutPage,
   Practical01Page,
   Practical02Page,
+  Practical03Page,
 } from 'src/modules/static-pages';
 
 export const route = {
@@ -23,18 +24,27 @@ export const PRACTICALS = [
   // Practical pages
   { id: '01', PageComponent: Practical01Page },
   { id: '02', PageComponent: Practical02Page },
+  {
+    id: '03',
+    PageComponent: Practical03Page,
+    wrapperProps: {
+      maxW: '80rem',
+      minW: 'none',
+      w: '100%',
+    },
+  },
 ];
 
 export function Routes() {
   return (
     <RouterRoutes>
       <Route path={route.home()} element={<HomePage />} />
-      {PRACTICALS.map(({ id, PageComponent }) => (
+      {PRACTICALS.map(({ id, PageComponent, wrapperProps = {} }) => (
         <Route
           path={route.practical(id)}
           key={id}
           element={
-            <PageWrapper>
+            <PageWrapper {...wrapperProps}>
               <PageComponent />
             </PageWrapper>
           }
