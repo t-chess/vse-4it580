@@ -15,7 +15,7 @@ import {
   Tabs,
 } from 'src/shared/design-system';
 
-function TodoListItem({ isCompleted, children, onChange }) {
+function TodoListItem({ isCompleted, children, onChange, onRemove }) {
   return (
     <Stack
       direction="row"
@@ -39,6 +39,7 @@ function TodoListItem({ isCompleted, children, onChange }) {
         size="sm"
         visibility="hidden"
         _groupHover={{ visibility: 'visible' }}
+        onClick={onRemove}
       />
     </Stack>
   );
@@ -47,7 +48,8 @@ function TodoListItem({ isCompleted, children, onChange }) {
 const STATES = ['all', 'completed', 'not-completed'];
 
 export function Practical02Page() {
-  const { items, addItem, setItemCompleted, filter, setFilter } = useTodoList();
+  const { items, addItem, removeItem, setItemCompleted, filter, setFilter } =
+    useTodoList();
   const [newItemName, setNewItemName] = useState('');
 
   return (
@@ -95,10 +97,12 @@ export function Practical02Page() {
         overflow="hidden"
         spacing="0"
       >
+        {items.length === 0 && <Box p="2">No items</Box>}
         {items.map((item) => (
           <TodoListItem
             key={item.id}
             onChange={(completed) => setItemCompleted(item.id, completed)}
+            onRemove={() => removeItem(item.id)}
             isCompleted={item.isCompleted}
           >
             {item.name}

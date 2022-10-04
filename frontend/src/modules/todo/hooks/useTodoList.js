@@ -43,6 +43,13 @@ export function useTodoList() {
     });
   };
 
+  const removeItem = (id) => {
+    setTodoState((prevState) => ({
+      ...prevState,
+      items: prevState.items.filter((item) => item.id !== id),
+    }));
+  };
+
   const setItemCompleted = (id, isCompleted) => {
     setTodoState((prevState) => ({
       ...prevState, // Set all previous state (`nextId` will remain unchanged)
@@ -68,10 +75,27 @@ export function useTodoList() {
     }));
   };
 
+  const filteredItems = todoState.items.filter((item) => {
+    switch (todoState.filter) {
+      case 'completed': {
+        return item.isCompleted;
+      }
+
+      case 'not-completed': {
+        return !item.isCompleted;
+      }
+
+      default: {
+        return true;
+      }
+    }
+  });
+
   return {
     filter: todoState.filter,
-    items: todoState.items,
+    items: filteredItems,
     addItem,
+    removeItem,
     setItemCompleted,
     setFilter,
   };
