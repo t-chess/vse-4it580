@@ -5,20 +5,10 @@ import {DeleteIcon} from '@chakra-ui/icons';
 import { Checkbox, HStack, Tab, TabList, Tabs } from '@chakra-ui/react';
 
 export function Practical02Page() {
-  const { items, addItem, setItemCompleted, deleteItem } = useTodoList();
+  const { items, addItem, setItemCompleted, deleteItem, filter, setFilter } = useTodoList();
   const [newItemName, setNewItemName] = useState('');
-  const [filteredItems, setFilteredItems] = useState(items)
 
   const STATES = ['all', 'completed', 'not-completed'];
-  const [filter, setFilter] = useState('all');
-
-  useEffect(() => {
-      setFilteredItems(()=>{
-        if (filter=='all') {return items};
-        if (filter=='completed') {return items.filter(i=>i.isCompleted)};
-        if (filter=='not-completed') {return items.filter(i=>!i.isCompleted)};
-      })
-  },[filter])
 
   return (
     <Box>
@@ -44,9 +34,9 @@ export function Practical02Page() {
         </TabList>
       </Tabs>
       <Box w='500px' border='1px' borderColor='gray.300' borderRadius='lg' p='10px' marginTop='25px'>
-        {filteredItems.map((item) => (
+        {items.map((item) => (
           <HStack _hover={{bg:'gray.100'}} role="group" align='center' w='100%' justify='space-between' px='5px' py='10px' key={item.id}>
-            <Checkbox as={item.isCompleted ? 'del' : ''} onChange={()=>{setItemCompleted(item.id, !item.isCompleted)}} key={item.id} checked={item.isCompleted}>{item.name}</Checkbox> 
+            <Checkbox as={item.isCompleted ? 'del' : ''} onChange={()=>{setItemCompleted(item.id, !item.isCompleted)}} key={item.id} isChecked={item.isCompleted}>{item.name}</Checkbox> 
             <DeleteIcon opacity='0%' _groupHover={{opacity:'100%'}} bg='red.500' w='30px' h='30px' p='7px' borderRadius='5px' color='white' onClick={()=>{deleteItem(item.id)}} ></DeleteIcon>
           </HStack>
         ))}

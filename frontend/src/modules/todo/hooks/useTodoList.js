@@ -22,6 +22,7 @@ export function useTodoList() {
   const [todoState, setTodoState] = useState({
     items: initialItems,
     nexId: initialItems.length + 1,
+    filter: 'all',
   });
   const addItem = (name) => {
     setTodoState((prevState)=> {
@@ -59,10 +60,29 @@ export function useTodoList() {
     }))
   }
 
+  const setFilter = (filter) => {
+    setTodoState((prev)=> ({
+      ...prev,
+      filter,
+    }))
+  };
+
+  const filteredItems = todoState.items.filter((i)=>{
+    if (todoState.filter=='completed') {
+      return i.isCompleted;
+    }
+    if (todoState.filter=='not-completed') {
+      return !i.isCompleted;
+    }
+    return true;
+  })
+
   return {
-    items: todoState.items,
+    items: filteredItems,
     addItem,
     setItemCompleted,
     deleteItem,
+    setFilter,
+    filter: todoState.filter,
   };
 }
