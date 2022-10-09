@@ -9,11 +9,25 @@ import {
   Switch,
   RadioGroup,
   Radio,
+  Box,
 } from 'src/shared/design-system';
 
-import { FormField } from 'src/shared/hook-form';
+import { FormField, yup } from 'src/shared/hook-form';
 
 import { SettingsSection } from '../molecules';
+
+
+const schema = yup.object().shape({
+  firstName: yup.string().required().label('First name'),
+  lastName: yup.string().required().label('Last name'),
+  username: yup.string().required().label('Username'),
+  email: yup.string().email().required().label('Email'),
+  about: yup.string().required().label('Bio'),
+  agreeToc: yup.bool().required().oneOf([true],"Must be accepted.").label('Agreement'),
+});
+const schemaNotif = yup.object().shape({
+  notificationsLevel: yup.string().required().label('Notifications level'),
+});
 
 export function Practical03Page() {
   return (
@@ -25,6 +39,7 @@ export function Practical03Page() {
         <SettingsSection
           title="Profile"
           description="This is your profile information."
+          schema={schema}
           formProps={{
             defaultValues: {
               firstName: 'John',
@@ -32,26 +47,33 @@ export function Practical03Page() {
               username: 'jdoe',
               email: 'john@doe.com',
               about: 'Lorem ipsum',
-              agreeToc: true,
+              visibility: 'public',
+              agreeToc: false,
             },
             onSubmit: (data) => {
               alert(JSON.stringify(data, null, 2));
             },
           }}
         >
-          <FormField name='firstName' />
-          <FormField name='lastName' />
-          <FormField name='agreeToc' as={Switch} xvariant='unstyled' />
-          <Select>
+          <Stack direction={{ base: 'column', md: 'row' }} > 
+            <FormField label="First name" name='firstName' />
+            <FormField label="Last name" name='lastName' />
+          </Stack>
+          <FormField label="Username" width={{ base: '100%', md: '50%' }} name='username' />
+          <FormField label="Email" width={{ base: '100%', md: '50%' }} name='email' />
+          <FormField label="Profile bio" name='about' as={Textarea} />
+          <FormField label="Profily visibility" name='visibility' as={Select}>
             <option value="public">Public</option>
             <option value="friends">Only friends</option>
             <option value="private">Private</option>
-          </Select>
-          <Switch> Agree to Terms and Conditions</Switch>
+          </FormField>
+
+          <FormField label="Agree to Terms and Conditions" border='none' name='agreeToc' as={Switch} />
         </SettingsSection>
         <SettingsSection
           title="Notifications"
           description="Setup how much notification you will receive"
+          schema={schemaNotif}
           formProps={{
             defaultValues: {
               notificationsLevel: 'mentions',
@@ -61,7 +83,7 @@ export function Practical03Page() {
             },
           }}
         >
-          <RadioGroup>
+          <FormField name='notificationsLevel' as={RadioGroup} border='none' height='100%'>
             <Heading as="h5">Notify me</Heading>
             <Paragraph>When you should be notified:</Paragraph>
             <Stack>
@@ -69,7 +91,7 @@ export function Practical03Page() {
               <Radio value="mentions">Only mentions (@username)</Radio>
               <Radio value="never">Never</Radio>
             </Stack>
-          </RadioGroup>
+          </FormField>
         </SettingsSection>
       </Stack>
     </>
